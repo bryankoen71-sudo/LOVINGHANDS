@@ -1,0 +1,59 @@
+LOVING HANDS - Complete Blueprint &
+Design Guide
+Final Build: Secret Admin v1 | Splash 5s | Gallery 1s | Rotating Glow | Date: 2026-07-31
+1. Project Overview
+This document contains the full rebuild instructions for the Loving Hands website including intense pink (#E6086B)
+and blue (#4F46E5) neon glows, bigger splash logo (380px), rotating top logo, 1-second gallery loop, and secret
+backend triggered by 7 clicks on bottom logo with password love1234.
+2. Final Site Features
+Splash Screen: Giving Love logo white card 380x380 radius 40, double layer glow ::before blur 22px opacity 0.85,
+::after blur 38px opacity 0.55, innerPulse box-shadow pink 30px + blue 60px pulsing to 45px/85px. Duration 5000ms
+then fade 0.9s.
+Gallery: 9 images base64 embedded in window.__LH_GALLERY_IMAGES, replaced caregiver image via
+MutationObserver, setInterval 1000ms.
+Top Nav Logo: Wrapped in .nav-logo-glow-wrap 60px, conic-gradient rotating 2s linear infinite, outer blur 18px
+inset -16px reverse.
+Secret Admin: Footer logo click counter 7 within 2s, modal login, full panel with tabs.
+3. Gallery Images (9)
+photo5123841357451852793.webp
+photo5888499114161244311.webp
+photo8906852872922029559.webp
+
+4. Splash Logo - Giving Love
+This logo is used for splash screen. White card with intense double glow. Code: .splash-logo-outer::before
+background linear-gradient 135deg #E6086B -> #4F46E5 blur 22px animation outerGlow 2s infinite.
+5. Step-by-Step Build Instructions
+Step 1 - Base: Start from file8709768987288915149.html React build.
+Step 2 - Convert 9 gallery images to base64 data URLs.
+Step 3 - Inject #lh-gallery-wrap with CSS opacity transition and JS MutationObserver to replace caregiver img.
+Step 4 - Create #custom-splash fixed z-index 9999999 with outer/inner glow animations, timer 5000ms.
+Step 5 - Top logo: Find img[alt*='Loving Hands Logo'], wrap in div .nav-logo-glow-wrap, apply conic-gradient
+rotating glow.
+Step 6 - Secret Admin: Click counter on footer img, 7 clicks in 2s opens login modal, password love1234, panel with
+gallery/logos/content/style/sections/data tabs, localStorage LH_ADMIN_CONFIG, rebuild via Blob download.
+Step 7 - Test locally: open index.html, check splash 5s, gallery 1s, top glow rotates, bottom 7-click opens admin.
+Step 8 - Deploy: Rename final file to index.html and upload to host (GitHub Pages: bryankoen71.github.io or
+Netlify).
+6. Design System
+Primary Pink: #E6086B, Primary Blue: #4F46E5, Background: #000 / #080808, Card: #111 border #222 radius 16,
+White: #fff, Text gray #666, Brand spacing 4px, Font Inter, Glow blur 18-38px, Sizes: splash 380px, nav 60px,
+Animation durations: outerGlow 2s ease-in-out, rotateGlow 2s linear infinite, splash fade 0.9s, gallery transition 0.6s.
+7. Secret Admin Usage
+Trigger: Scroll to footer, click bottom Loving Hands logo 7 times quickly. Login: love1234. Features: Gallery bulk
+upload (FileReader to dataURL), Logos upload, Content edit (h1-h4,p,button 80 items), Colors, Sections hide/show,
+Export JSON, Rebuild HTML. All edits saved to localStorage, use Rebuild & Download to bake into new file for
+upload.
+8. File List in ZIP
+
+index.html - final production file
+assets/gallery/ - 9 webp
+assets/logos/ - giving-love-logo.webp
+docs/BLUEPRINT.md, DESIGN_GUIDE.md, ADMIN_GUIDE.md
+scripts/ - older versions
+This PDF - BLUEPRINT-GUIDE.pdf
+
+[PDF page 1 image attached. Read this image directly to extract content.]
+
+[PDF page 2 image attached. Read this image directly to extract content.]
+
+[PDF page 3 image attached. Read this image directly to extract content.]
