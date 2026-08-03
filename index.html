@@ -791,6 +791,276 @@ nav .flex.items-center.gap-3 {
 })();
 </script>
 
+<!-- LOVING HANDS DONATION OPTION -->
+<style id="loving-hands-donation-styles">
+  :root {
+    --donate-pink: #e6086b;
+    --donate-blue: #315ecf;
+    --donate-ink: #090d18;
+    --donate-panel: #101827;
+    --donate-line: rgba(255,255,255,.13);
+  }
+
+  #donation-launcher {
+    position: fixed;
+    left: 18px;
+    bottom: 20px;
+    z-index: 89;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 52px;
+    padding: 0 19px;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 999px;
+    background: linear-gradient(115deg, var(--donate-pink), #b40870 48%, var(--donate-blue));
+    color: #fff;
+    box-shadow: 0 14px 34px rgba(4,8,18,.38);
+    font: 800 13px/1 Inter, sans-serif;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  #donation-launcher:hover { transform: translateY(-3px); box-shadow: 0 18px 38px rgba(4,8,18,.48); filter: saturate(1.08); }
+  #donation-launcher:active { transform: translateY(0) scale(.98); }
+  #donation-launcher:focus-visible,
+  #donation-dialog button:focus-visible,
+  #donation-dialog input:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  #donation-launcher svg { width: 20px; height: 20px; flex: 0 0 auto; }
+
+  #donation-dialog {
+    width: min(92vw, 650px);
+    max-height: min(88vh, 760px);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    border: 1px solid var(--donate-line);
+    border-radius: 28px;
+    background: var(--donate-panel);
+    color: #fff;
+    box-shadow: 0 34px 100px rgba(0,0,0,.7);
+  }
+  #donation-dialog::backdrop { background: rgba(3,6,13,.82); backdrop-filter: blur(8px); }
+  #donation-dialog[open] { animation: donation-in .24s ease-out both; }
+  @keyframes donation-in { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+
+  .donation-shell { position: relative; overflow: hidden; }
+  .donation-accent { height: 6px; background: linear-gradient(90deg, var(--donate-pink), #f04d93 48%, var(--donate-blue)); }
+  .donation-body { padding: 30px; }
+  .donation-close {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--donate-line);
+    border-radius: 999px;
+    background: rgba(255,255,255,.06);
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+  }
+  .donation-close:hover { background: rgba(255,255,255,.13); transform: rotate(5deg); }
+  .donation-kicker { color: #f58bb8; font: 800 11px/1 Inter, sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+  .donation-title { max-width: 500px; margin: 10px 48px 0 0; font: 700 clamp(30px, 6vw, 46px)/.98 Georgia, serif; letter-spacing: -.035em; }
+  .donation-intro { max-width: 54ch; margin-top: 14px; color: #c7cfdd; font: 400 14px/1.65 Inter, sans-serif; }
+  .donation-label { display: block; margin: 25px 0 10px; color: #fff; font: 800 12px/1 Inter, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+  .donation-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+  .donation-choice {
+    min-height: 48px;
+    padding: 8px 10px;
+    border: 1px solid var(--donate-line);
+    border-radius: 14px;
+    background: rgba(255,255,255,.045);
+    color: #e8edf7;
+    font: 800 14px/1 Inter, sans-serif;
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+  }
+  .donation-choice:hover { border-color: rgba(245,139,184,.72); transform: translateY(-2px); }
+  .donation-choice[aria-pressed="true"] { border-color: #f58bb8; background: rgba(230,8,107,.18); color: #fff; }
+  .donation-purpose-options { grid-template-columns: repeat(3, 1fr); }
+  .donation-purpose-options .donation-choice { min-height: 58px; font-size: 12px; line-height: 1.35; }
+  .donation-custom {
+    width: 100%;
+    height: 48px;
+    padding: 0 15px;
+    border: 1px solid var(--donate-line);
+    border-radius: 14px;
+    background: rgba(4,8,18,.45);
+    color: #fff;
+    font: 600 14px/1 Inter, sans-serif;
+  }
+  .donation-custom::placeholder { color: #748095; }
+  .donation-action {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 24px;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 15px;
+    background: #25d366;
+    color: #062d15;
+    font: 900 14px/1.2 Inter, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba(37,211,102,.18);
+    transition: transform .2s ease, background .2s ease;
+  }
+  .donation-action:hover { background: #42df7c; transform: translateY(-2px); }
+  .donation-note { margin-top: 13px; color: #8f9aae; text-align: center; font: 500 11px/1.55 Inter, sans-serif; }
+  .donation-note a { color: #f58bb8; text-decoration: underline; text-underline-offset: 3px; }
+
+  .donation-nav-button {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 17px;
+    border: 1px solid rgba(245,139,184,.45);
+    border-radius: 999px;
+    background: rgba(230,8,107,.12);
+    color: #fff !important;
+    font-weight: 800 !important;
+    cursor: pointer;
+  }
+
+  @media (max-width: 640px) {
+    #donation-launcher { left: 12px; bottom: 14px; min-height: 48px; padding: 0 15px; }
+    .donation-body { padding: 25px 20px 22px; }
+    .donation-close { top: 18px; right: 17px; }
+    .donation-options { grid-template-columns: repeat(2, 1fr); }
+    .donation-purpose-options { grid-template-columns: 1fr; }
+    .donation-title { font-size: 34px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #donation-dialog[open] { animation: none; }
+    #donation-launcher, .donation-choice, .donation-action { transition: none; }
+  }
+</style>
+
+<button id="donation-launcher" type="button" aria-haspopup="dialog" aria-controls="donation-dialog">
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/>
+  </svg>
+  Donate
+</button>
+
+<dialog id="donation-dialog" aria-labelledby="donation-title">
+  <div class="donation-shell">
+    <div class="donation-accent"></div>
+    <div class="donation-body">
+      <button class="donation-close" type="button" aria-label="Close donation window">×</button>
+      <p class="donation-kicker">Give with purpose</p>
+      <h2 class="donation-title" id="donation-title">Help care reach a family who needs it.</h2>
+      <p class="donation-intro">Choose how you would like to help. Your message goes directly to Loving Hands so the team can share secure payment or collection details.</p>
+
+      <span class="donation-label">Choose an amount</span>
+      <div class="donation-options" data-donation-group="amount">
+        <button class="donation-choice" type="button" data-value="R150" aria-pressed="true">R150</button>
+        <button class="donation-choice" type="button" data-value="R350" aria-pressed="false">R350</button>
+        <button class="donation-choice" type="button" data-value="R750" aria-pressed="false">R750</button>
+        <button class="donation-choice" type="button" data-value="Custom amount" aria-pressed="false">Other</button>
+      </div>
+      <label class="donation-label" for="donation-custom-amount">Custom amount (optional)</label>
+      <input class="donation-custom" id="donation-custom-amount" type="text" inputmode="decimal" placeholder="For example, R500">
+
+      <span class="donation-label">Where should it help?</span>
+      <div class="donation-options donation-purpose-options" data-donation-group="purpose">
+        <button class="donation-choice" type="button" data-value="Where it is needed most" aria-pressed="true">Where needed most</button>
+        <button class="donation-choice" type="button" data-value="Caregiver and care supplies" aria-pressed="false">Care supplies</button>
+        <button class="donation-choice" type="button" data-value="Support for a family in need" aria-pressed="false">Family support</button>
+      </div>
+
+      <button class="donation-action" type="button">Arrange my donation on WhatsApp</button>
+      <p class="donation-note">No payment is taken on this website. Loving Hands confirms the secure payment details directly. Prefer email? <a href="mailto:lovinghands.ceo@gmail.com?subject=I%20would%20like%20to%20donate">Send a donation enquiry</a>.</p>
+    </div>
+  </div>
+</dialog>
+
+<script id="loving-hands-donation-script">
+(function () {
+  var dialog = document.getElementById('donation-dialog');
+  var launcher = document.getElementById('donation-launcher');
+  var closeButton = dialog.querySelector('.donation-close');
+  var actionButton = dialog.querySelector('.donation-action');
+  var customAmount = document.getElementById('donation-custom-amount');
+  var selected = {
+    amount: 'R150',
+    purpose: 'Where it is needed most'
+  };
+
+  function openDonation() {
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    else dialog.setAttribute('open', '');
+  }
+
+  function closeDonation() {
+    if (typeof dialog.close === 'function') dialog.close();
+    else dialog.removeAttribute('open');
+  }
+
+  launcher.addEventListener('click', openDonation);
+  closeButton.addEventListener('click', closeDonation);
+  dialog.addEventListener('click', function (event) {
+    if (event.target === dialog) closeDonation();
+  });
+
+  dialog.querySelectorAll('[data-donation-group]').forEach(function (group) {
+    group.addEventListener('click', function (event) {
+      var button = event.target.closest('.donation-choice');
+      if (!button) return;
+      group.querySelectorAll('.donation-choice').forEach(function (choice) {
+        choice.setAttribute('aria-pressed', choice === button ? 'true' : 'false');
+      });
+      selected[group.getAttribute('data-donation-group')] = button.getAttribute('data-value');
+      if (group.getAttribute('data-donation-group') === 'amount' && button.getAttribute('data-value') === 'Custom amount') {
+        customAmount.focus();
+      } else if (group.getAttribute('data-donation-group') === 'amount') {
+        customAmount.value = '';
+      }
+    });
+  });
+
+  customAmount.addEventListener('input', function () {
+    if (!customAmount.value.trim()) return;
+    selected.amount = customAmount.value.trim();
+    var amountGroup = dialog.querySelector('[data-donation-group="amount"]');
+    amountGroup.querySelectorAll('.donation-choice').forEach(function (choice) {
+      choice.setAttribute('aria-pressed', choice.getAttribute('data-value') === 'Custom amount' ? 'true' : 'false');
+    });
+  });
+
+  actionButton.addEventListener('click', function () {
+    var amount = customAmount.value.trim() || selected.amount;
+    var message = 'Hi Loving Hands, I would like to make a donation.\n\nAmount: ' + amount + '\nPurpose: ' + selected.purpose + '\n\nPlease send me the secure payment details. Thank you.';
+    window.open('https://wa.me/27740954301?text=' + encodeURIComponent(message), '_blank', 'noopener,noreferrer');
+  });
+
+  function addHeaderDonationButton() {
+    if (document.querySelector('.donation-nav-button')) return;
+    var desktopContact = Array.from(document.querySelectorAll('header a[href="#contact"]')).find(function (link) {
+      return !link.closest('[class*="mobile"]') && link.offsetParent !== null;
+    });
+    if (!desktopContact || !desktopContact.parentElement) return;
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'donation-nav-button';
+    button.textContent = 'Donate';
+    button.addEventListener('click', openDonation);
+    desktopContact.parentElement.insertBefore(button, desktopContact.nextSibling);
+  }
+
+  var donationObserver = new MutationObserver(addHeaderDonationButton);
+  donationObserver.observe(document.body, { childList: true, subtree: true });
+  window.addEventListener('load', addHeaderDonationButton);
+  addHeaderDonationButton();
+})();
+</script>
+<!-- END LOVING HANDS DONATION OPTION -->
+
 <!-- SECRET ADMIN PANEL - Trigger: click bottom logo 7 times, password: love1234 -->
 <style>
 #admin-login-modal{position:fixed;inset:0;z-index:99999999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center}
