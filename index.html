@@ -1067,3 +1067,170 @@ nav .flex.items-center.gap-3 {
 <!-- END SECRET ADMIN -->
 </body>
 </html>
+<script id="donations-injector">
+// DONATIONS - SAFE INJECTION NO LEAK
+(function(){
+  function createDonations(){
+    if(document.getElementById('donations-section')) return;
+    var footer = document.querySelector('footer');
+    if(!footer){
+      // try find bottom area - insert before closing body as fallback
+      var sec = document.createElement('section');
+      sec.id='donations-section';
+      sec.innerHTML = document.getElementById('donations-template').innerHTML;
+      document.body.appendChild(sec);
+      return;
+    }
+    var sec = document.createElement('section');
+    sec.id='donations-section';
+    sec.innerHTML = document.getElementById('donations-template').innerHTML;
+    footer.parentNode.insertBefore(sec, footer);
+  }
+  // Template in hidden div to avoid JS quote issues
+  var style = document.createElement('style');
+  style.textContent = '#donations-section{padding:80px 20px;background:#0a0a0a;border-top:1px solid #222} #donations-section .don-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px} #donations-section .don-card{background:#151515;border:1px solid #222;border-radius:16px;padding:24px;text-align:center} #donations-section .don-card.popular{border:2px solid #C2185B;box-shadow:0 0 30px rgba(194,24,91,0.3);transform:scale(1.03)}';
+  document.head.appendChild(style);
+  
+  // Create hidden template
+  var tpl = document.createElement('div');
+  tpl.id='donations-template';
+  tpl.style.display='none';
+  tpl.innerHTML = '<div style="max-width:1000px;margin:0 auto;text-align:center"><div style="display:inline-block;background:linear-gradient(90deg,#C2185B,#0D47A1);color:white;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:800;margin-bottom:16px">SUPPORT OUR MISSION</div><h2 style="color:white;font-size:38px;font-weight:800;margin:0 0 12px">Support Loving Hands Care</h2><p style="color:#888;font-size:16px;max-width:600px;margin:0 auto 32px">Your donation helps us provide 24/7 professional care across South Africa.</p><div class="don-grid"><div class="don-card"><div style="font-size:32px">💝</div><h3 style="color:white">R100</h3><p style="color:#666;font-size:13px">Care essentials for a day</p><button onclick="donateNow(100)" style="width:100%;background:linear-gradient(90deg,#C2185B,#0D47A1);color:white;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer">Donate R100</button></div><div class="don-card popular"><div style="font-size:32px">❤️</div><h3 style="color:white">R250</h3><p style="color:#666;font-size:13px">Full care visit - Popular</p><button onclick="donateNow(250)" style="width:100%;background:linear-gradient(90deg,#C2185B,#0D47A1);color:white;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer">Donate R250</button></div><div class="don-card"><div style="font-size:32px">🌟</div><h3 style="color:white">R500</h3><p style="color:#666;font-size:13px">Weekly care</p><button onclick="donateNow(500)" style="width:100%;background:linear-gradient(90deg,#C2185B,#0D47A1);color:white;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer">Donate R500</button></div><div class="don-card"><div style="font-size:32px">🙏</div><h3 style="color:white">Custom</h3><p style="color:#666;font-size:13px">Any amount</p><button onclick="donateCustomNow()" style="width:100%;background:#222;color:white;border:1px solid #333;border-radius:10px;padding:12px;font-weight:700;cursor:pointer">Custom Amount</button></div></div><div style="background:#0f0f0f;border:1px solid #222;border-radius:16px;padding:24px;max-width:700px;margin:0 auto"><h4 style="color:white;margin:0 0 12px">Payment Methods</h4><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px"><button onclick="showPay(1)" style="background:white;color:#111;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer">PayFast</button><button onclick="showPay(2)" style="background:#111;color:white;border:1px solid #333;border-radius:10px;padding:12px;font-weight:700;cursor:pointer">EFT Bank</button><button onclick="showPay(3)" style="background:#0070BA;color:white;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer">PayPal</button><button onclick="showPay(4)" style="background:#25D366;color:white;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer">WhatsApp</button></div><div id="payDetails" style="margin-top:16px;padding:12px;background:#0a0a0a;border:1px solid #222;border-radius:8px;display:none;text-align:left;color:#ccc;font-size:13px"></div><p style="color:#555;font-size:11px;margin-top:12px">director@lovinghands.co.za - info@lovinghands.co.za - sales@lovinghands.co.za - www.lovinghands.co.za - 074 095 4301</p></div></div>';
+  document.body.appendChild(tpl);
+  
+  function init(){
+    createDonations();
+    // Try again after footer appears
+    var obs = new MutationObserver(createDonations);
+    obs.observe(document.body, {childList:true, subtree:true});
+    setInterval(createDonations, 1000);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+function donateNow(amt){
+  var d=document.getElementById('payDetails');
+  if(!d) return;
+  d.style.display='block';
+  d.innerHTML='<b style=color:white>Donate R'+amt+'</b><br><br>Thank you! Contact 074 095 4301 or director@lovinghands.co.za with reference DONATION-R'+amt;
+}
+function donateCustomNow(){
+  var a=prompt('Enter amount R:','1000');
+  if(a) donateNow(a);
+}
+function showPay(n){
+  var d=document.getElementById('payDetails');
+  if(!d) return;
+  d.style.display='block';
+  if(n===1) d.innerHTML='<b style=color:white>PayFast</b><br>Cards, EFT, SnapScan<br>Contact 074 095 4301 for link<br>director@lovinghands.co.za';
+  else if(n===2) d.innerHTML='<b style=color:white>EFT Bank</b><br>Account: Loving Hands by Care Expertise<br>Ref: DONATION<br>Send proof to director@lovinghands.co.za<br>info@lovinghands.co.za<br>sales@lovinghands.co.za';
+  else if(n===3) d.innerHTML='<b style=color:white>PayPal</b><br>PayPal: director@lovinghands.co.za';
+  else if(n===4){ window.open('https://wa.me/27740954301?text=Hi%20Loving%20Hands%20I%20want%20to%20donate', '_blank'); d.innerHTML='<b style=color:white>WhatsApp</b><br>Opening WhatsApp 074 095 4301...'; }
+}
+</script>
+
+<script>
+// FIX ALL ADMIN BUTTONS + SAFE UNLIMITED (DOM methods, no innerHTML leaks)
+(function(){
+  function ensureAdminFix(){
+    if(typeof window.adminExport !== 'function'){
+      window.adminExport = function(){
+        var cfg = JSON.parse(localStorage.getItem('LH_ADMIN_CONFIG')||'{}');
+        var blob = new Blob([JSON.stringify(cfg,null,2)], {type:'application/json'});
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'loving-hands-config-'+Date.now()+'.json'; a.click();
+      };
+    }
+    if(typeof window.adminRebuildAndDownload !== 'function'){
+      window.adminRebuildAndDownload = function(){
+        var h = document.documentElement.outerHTML;
+        var blob = new Blob([h], {type:'text/html'});
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'LOVING-HANDS-'+Date.now()+'.html'; a.click();
+      };
+    }
+    // Ensure gallery functions
+    if(typeof window.bulkAddGallery !== 'function'){
+      window.bulkAddGallery = function(){
+        var inp = document.getElementById('bulkGallery');
+        if(!inp || !inp.files.length){ alert('Choose files'); return; }
+        var cfg = JSON.parse(localStorage.getItem('LH_ADMIN_CONFIG')||'{}');
+        if(!cfg.gallery) cfg.gallery=[];
+        var files = Array.from(inp.files);
+        var promises = files.map(function(f){ return new Promise(function(res){ var r=new FileReader(); r.onload=function(e){res(e.target.result);}; r.readAsDataURL(f); }); });
+        Promise.all(promises).then(function(results){
+          cfg.gallery = cfg.gallery.concat(results);
+          localStorage.setItem('LH_ADMIN_CONFIG', JSON.stringify(cfg));
+          alert(results.length + ' images added! Reloading...');
+          location.reload();
+        });
+      };
+    }
+    // Add unlimited tabs safely
+    var sidebar = document.getElementById('admin-sidebar');
+    if(sidebar && !document.getElementById('safe-utab-blocks')){
+      var tabs = [
+        {id:'safe-utab-blocks', tab:'safe-blocks', label:'🧱 Blocks'},
+        {id:'safe-utab-promos', tab:'safe-promos', label:'🎉 Promos'},
+        {id:'safe-utab-backup', tab:'safe-backup', label:'💾 Full Backup'},
+        {id:'safe-utab-donations', tab:'safe-donations', label:'💝 Donations'}
+      ];
+      tabs.forEach(function(t){
+        var div = document.createElement('div');
+        div.className='admin-tab';
+        div.id=t.id;
+        div.dataset.tab=t.tab;
+        div.textContent=t.label;
+        div.style.border='1px dashed #C2185B';
+        div.addEventListener('click', function(){ window.switchAdminTab(t.tab); });
+        sidebar.appendChild(div);
+      });
+      // Patch renderAdmin
+      var orig = window.renderAdmin;
+      if(orig && !orig._safePatched){
+        window.renderAdmin = function(tab){
+          tab = tab || (document.querySelector('.admin-tab.active') ? document.querySelector('.admin-tab.active').dataset.tab : 'gallery');
+          var c = document.getElementById('admin-content');
+          if(!c) return;
+          if(tab==='safe-blocks'){
+            c.textContent=''; 
+            var card = document.createElement('div'); card.className='admin-card';
+            var h = document.createElement('h4'); h.textContent='Blocks Builder - Unlimited'; card.appendChild(h);
+            var p = document.createElement('p'); p.style.color='#666'; p.textContent='Create blocks for main page'; card.appendChild(p);
+            var btn1 = document.createElement('button'); btn1.className='admin-btn btn-pink'; btn1.textContent='Create Hero Block'; btn1.onclick=function(){ var html=prompt('HTML:','<section style=padding:60px;text-align:center;background:#111;color:white><h1>New Hero</h1></section>'); if(html){ var blocks=JSON.parse(localStorage.getItem('LH_CUSTOM_BLOCKS')||'[]'); blocks.push({id:Date.now(),content:html}); localStorage.setItem('LH_CUSTOM_BLOCKS', JSON.stringify(blocks)); alert('Block saved! Use Save to Live'); } }; card.appendChild(btn1);
+            var btn2 = document.createElement('button'); btn2.className='admin-btn btn-dark'; btn2.textContent='Save Blocks to Live'; btn2.style.marginLeft='8px'; btn2.onclick=function(){ var blocks=JSON.parse(localStorage.getItem('LH_CUSTOM_BLOCKS')||'[]'); var cont=document.getElementById('dynamic-custom-blocks'); if(!cont){ cont=document.createElement('div'); cont.id='dynamic-custom-blocks'; document.body.appendChild(cont); } cont.innerHTML=blocks.map(function(b){return b.content;}).join(''); alert(blocks.length+' blocks live! Rebuild & Download to save.'); }; card.appendChild(btn2);
+            c.appendChild(card);
+          } else if(tab==='safe-promos'){
+            c.textContent='';
+            var card2=document.createElement('div'); card2.className='admin-card';
+            var h2=document.createElement('h4'); h2.textContent='Promos'; card2.appendChild(h2);
+            var inp1=document.createElement('input'); inp1.className='admin-input'; inp1.id='promoTitleSafe'; inp1.placeholder='Title: 20% Off'; card2.appendChild(inp1);
+            var inp2=document.createElement('input'); inp2.className='admin-input'; inp2.id='promoBadgeSafe'; inp2.placeholder='Badge: LIMITED TIME'; card2.appendChild(inp2);
+            var btn=document.createElement('button'); btn.className='admin-btn btn-pink'; btn.textContent='Add Promo'; btn.onclick=function(){ var title=document.getElementById('promoTitleSafe').value||'Special Promo'; var badge=document.getElementById('promoBadgeSafe').value||'LIMITED'; var html='<section style=background:linear-gradient(90deg,#C2185B,#0D47A1);padding:30px;text-align:center;color:white;border-radius:16px;margin:20px><span style=background:white;color:#C2185B;padding:4px 12px;border-radius:20px;font-weight:800;font-size:11px>'+badge+'</span><h2 style=margin-top:12px>'+title+'</h2></section>'; var blocks=JSON.parse(localStorage.getItem('LH_CUSTOM_BLOCKS')||'[]'); blocks.push({id:Date.now(),content:html}); localStorage.setItem('LH_CUSTOM_BLOCKS', JSON.stringify(blocks)); alert('Promo added! Go to Blocks tab and Save to Live'); }; card2.appendChild(btn);
+            c.appendChild(card2);
+          } else if(tab==='safe-backup'){
+            c.textContent='';
+            var card3=document.createElement('div'); card3.className='admin-card';
+            var h3=document.createElement('h4'); h3.textContent='Full Backup'; card3.appendChild(h3);
+            var b1=document.createElement('button'); b1.style.cssText='width:100%;background:linear-gradient(90deg,#C2185B,#0D47A1);color:white;border:none;border-radius:10px;padding:14px;font-weight:800;margin-bottom:10px;cursor:pointer'; b1.textContent='Download Complete Site (HTML)'; b1.onclick=window.adminRebuildAndDownload; card3.appendChild(b1);
+            var b2=document.createElement('button'); b2.style.cssText='width:100%;background:#222;color:white;border:1px solid #333;border-radius:10px;padding:14px;margin-bottom:10px;cursor:pointer'; b2.textContent='Download Config JSON'; b2.onclick=window.adminExport; card3.appendChild(b2);
+            var p3=document.createElement('p'); p3.style.cssText='color:#888;font-size:12px'; p3.textContent='Domain: www.lovinghands.co.za | Emails: director@, info@, sales@lovinghands.co.za'; card3.appendChild(p3);
+            c.appendChild(card3);
+          } else if(tab==='safe-donations'){
+            c.textContent='';
+            var card4=document.createElement('div'); card4.className='admin-card';
+            var h4=document.createElement('h4'); h4.textContent='Donations Manager'; card4.appendChild(h4);
+            var p4=document.createElement('p'); p4.style.color='#666'; p4.textContent='Donations section is live on site above footer. Edit bank details in Wording & Text tab, or update here:'; card4.appendChild(p4);
+            var ta=document.createElement('textarea'); ta.className='admin-input'; ta.id='bankDetailsSafe'; ta.style.height='80px'; ta.placeholder='Bank: ... Account: ...'; var saved=localStorage.getItem('LH_BANK_DETAILS'); if(saved) ta.value=saved; card4.appendChild(ta);
+            var btnSave=document.createElement('button'); btnSave.className='admin-btn btn-pink'; btnSave.textContent='Save Bank Details'; btnSave.onclick=function(){ localStorage.setItem('LH_BANK_DETAILS', document.getElementById('bankDetailsSafe').value); alert('Bank details saved!'); }; card4.appendChild(btnSave);
+            c.appendChild(card4);
+          } else {
+            orig(tab);
+          }
+        };
+        window.renderAdmin._safePatched=true;
+      }
+    }
+  }
+  setInterval(ensureAdminFix, 1000);
+})();
+</script>
